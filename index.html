@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NASA - Imagen del Día</title>
+    <link rel="stylesheet" type="text/css" href="style.css"> <!-- Enlace al archivo CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery para AJAX -->
+</head>
+<body>
+    <div class="container">
+        <h1>NASA - Imagen del Día</h1>
+        <div id="image-container">
+            <!-- Aquí se mostrará la imagen -->
+        </div>
+        <div id="info">
+            <!-- Aquí se mostrará el título y la descripción -->
+        </div>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        // Hacer una solicitud AJAX al archivo PHP
+        $.ajax({
+            url: "get_nasa_data.php",
+            type: "GET",
+            success: function(data) {
+                if (data.error) {
+                    $("#info").text("Error: " + data.error);
+                } else {
+                    $("#image-container").html('<img src="' + data.url + '" alt="' + data.title + '">');
+                    $("#info").html("<h2>" + data.title + "</h2><p>" + data.explanation + "</p>");
+                }
+            },
+            error: function() {
+                $("#info").text("Hubo un error al obtener datos de la API.");
+            }
+        });
+    });
+    </script>
+</body>
+</html>
